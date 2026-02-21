@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Portal</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f2f4f8;
+}
+
+/* HEADER */
+.header{
+  background:#0d3b66;
+  color:white;
+  padding:20px;
+  text-align:center;
+  position:relative;
+}
+
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  border:3px solid white;
+  object-fit:cover;
+}
+
+.student-id{
+  margin-top:8px;
+  font-size:14px;
+  opacity:0.9;
+}
+
+/* CARD */
+.card{
+  background:white;
+  margin:20px;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* FORM */
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#0d3b66;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  text-align:center;
+}
+
+.grid div{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  font-size:13px;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+  box-shadow:0 -2px 8px rgba(0,0,0,0.1);
+}
+
+.bottom-nav div{
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <img src="https://i.pravatar.cc/150" class="avatar">
+  <h3 id="displayName">Xin chào!</h3>
+  <div class="student-id" id="studentId"></div>
+</div>
+
+<div class="card">
+  <h4>Thông tin cá nhân</h4>
+  <input type="text" id="nameInput" placeholder="Nhập họ tên">
+  <input type="number" id="yearInput" placeholder="Nhập năm sinh">
+  <button onclick="saveInfo()">Lưu thông tin</button>
+</div>
+
+<div class="card">
+  <h4>Lịch hôm nay</h4>
+  <p>Không tìm thấy lịch học / lịch thi</p>
+</div>
+
+<div class="card">
+  <h4>Chức năng</h4>
+  <div class="grid">
+    <div>Xem điểm</div>
+    <div>Học phí</div>
+    <div>Thành tích</div>
+    <div>Phiếu thu</div>
+    <div>Chương trình</div>
+    <div>Lịch học</div>
+    <div>Điểm danh</div>
+    <div>Tất cả</div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div>Trang chủ</div>
+  <div>Lịch học</div>
+  <div>Điểm danh</div>
+  <div>Cá nhân</div>
+</div>
+
+<script>
+// tạo mã sinh viên fake
+function generateID(){
+  return "SV" + Math.floor(100000 + Math.random()*900000);
+}
+
+// lưu thông tin
+function saveInfo(){
+  const name = document.getElementById("nameInput").value;
+  const year = document.getElementById("yearInput").value;
+
+  localStorage.setItem("name", name);
+  localStorage.setItem("year", year);
+
+  document.getElementById("displayName").innerText = "Xin chào, " + name;
+}
+
+// load dữ liệu khi mở lại
+window.onload = function(){
+  let savedName = localStorage.getItem("name");
+  let savedYear = localStorage.getItem("year");
+  let savedID = localStorage.getItem("studentId");
+
+  if(!savedID){
+    savedID = generateID();
+    localStorage.setItem("studentId", savedID);
+  }
+
+  document.getElementById("studentId").innerText = "Mã sinh viên: " + savedID;
+
+  if(savedName){
+    document.getElementById("displayName").innerText = "Xin chào, " + savedName;
+    document.getElementById("nameInput").value = savedName;
+  }
+
+  if(savedYear){
+    document.getElementById("yearInput").value = savedYear;
+  }
+}
+</script>
+
+</body>
+</html>
